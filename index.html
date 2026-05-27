@@ -7,8 +7,13 @@
   <title>GoSlip</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    :root{--bg:#f7f8fb;--card:#fff;--text:#121826;--muted:#667085;--line:#e5e7eb;--brand:#2563eb;--brand2:#1e40af;--good:#16a34a;--bad:#dc2626;--shadow:0 18px 50px rgba(15,23,42,.09)}
-    *{box-sizing:border-box} body{margin:0;background:linear-gradient(180deg,#eef4ff 0%,var(--bg) 38%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif} a{color:inherit;text-decoration:none} .wrap{max-width:1120px;margin:auto;padding:24px}.nav{display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:22px}.logo{width:38px;height:38px;border-radius:13px;background:var(--brand);color:white;display:grid;place-items:center;box-shadow:var(--shadow)}.links{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.btn{border:0;border-radius:14px;padding:11px 15px;font-weight:800;cursor:pointer;background:#eaf1ff;color:#17305f}.btn.primary{background:var(--brand);color:white}.btn.danger{background:#fee2e2;color:#991b1b}.btn.ghost{background:transparent;border:1px solid var(--line)}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:center;padding:64px 0}.pill{display:inline-flex;border:1px solid #bfdbfe;color:#1d4ed8;background:#eff6ff;border-radius:999px;padding:8px 12px;font-weight:800;font-size:13px}.h1{font-size:56px;line-height:1;margin:16px 0}.lead{font-size:20px;color:var(--muted);line-height:1.65}.card{background:rgba(255,255,255,.86);border:1px solid var(--line);border-radius:26px;padding:22px;box-shadow:var(--shadow);backdrop-filter:blur(10px)}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.field{display:flex;flex-direction:column;gap:7px;margin:12px 0}.field label{font-weight:800;font-size:14px}.input,textarea,select{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px 13px;font:inherit;background:white}textarea{min-height:110px;resize:vertical}.muted{color:var(--muted)}.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.hidden{display:none!important}.topbar{position:sticky;top:0;background:rgba(247,248,251,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:5}.app{padding:26px 0}.two{display:grid;grid-template-columns:340px 1fr;gap:18px}.side{display:flex;flex-direction:column;gap:10px}.tab{border:1px solid var(--line);background:white;border-radius:16px;padding:13px;text-align:left;font-weight:850;cursor:pointer}.tab.active{border-color:#93c5fd;background:#eff6ff;color:#1d4ed8}.list{display:grid;gap:12px}.item{border:1px solid var(--line);border-radius:18px;padding:14px;background:white}.item h3{margin:0 0 6px}.small{font-size:13px}.badge{display:inline-flex;border-radius:999px;background:#eef2ff;color:#3730a3;padding:5px 9px;font-size:12px;font-weight:900}.notice{border-left:4px solid var(--brand);padding:12px 14px;background:#eff6ff;border-radius:14px}.error{border-left-color:var(--bad);background:#fef2f2;color:#991b1b}.success{border-left-color:var(--good);background:#f0fdf4;color:#166534}.footer{padding:36px 0;color:var(--muted);font-size:14px}.check{display:flex;align-items:flex-start;gap:9px;margin:10px 0}.check input{margin-top:4px}@media(max-width:850px){.hero,.two,.grid{grid-template-columns:1fr}.h1{font-size:42px}.links{justify-content:flex-end}}
+    :root{
+      --bg:#f7f8fb;--card:#fff;--text:#101828;--muted:#667085;--line:#e5e7eb;
+      --brand:#2563eb;--brand2:#7c3aed;--soft:#eff6ff;--good:#16a34a;--bad:#dc2626;
+      --warning:#f59e0b;--shadow:0 18px 50px rgba(15,23,42,.09);--radius:26px
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:radial-gradient(circle at top left,#dbeafe 0,#f7f8fb 34%,#fff 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif} a{color:inherit;text-decoration:none}
+    .wrap{max-width:1180px;margin:auto;padding:24px}.nav{display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:10px;font-weight:950;font-size:23px}.logo{width:40px;height:40px;border-radius:14px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:white;display:grid;place-items:center;box-shadow:var(--shadow)}.links{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.btn{border:0;border-radius:15px;padding:11px 15px;font-weight:850;cursor:pointer;background:#eaf1ff;color:#17305f;transition:.15s ease;font:inherit}.btn:hover{transform:translateY(-1px)}.btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand2));color:white}.btn.danger{background:#fee2e2;color:#991b1b}.btn.good{background:#dcfce7;color:#166534}.btn.ghost{background:rgba(255,255,255,.65);border:1px solid var(--line)}.btn.small{padding:8px 11px;border-radius:12px;font-size:13px}.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;padding:58px 0}.pill{display:inline-flex;border:1px solid #bfdbfe;color:#1d4ed8;background:#eff6ff;border-radius:999px;padding:8px 12px;font-weight:850;font-size:13px}.h1{font-size:58px;line-height:.96;margin:16px 0;letter-spacing:-2.2px}.lead{font-size:20px;color:var(--muted);line-height:1.65}.card{background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);backdrop-filter:blur(10px)}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.field{display:flex;flex-direction:column;gap:7px;margin:12px 0}.field label{font-weight:850;font-size:14px}.input,textarea,select{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px 13px;font:inherit;background:white;color:var(--text)}textarea{min-height:110px;resize:vertical}.muted{color:var(--muted)}.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.between{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}.hidden{display:none!important}.topbar{position:sticky;top:0;background:rgba(247,248,251,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);z-index:5}.app{padding:26px 0}.two{display:grid;grid-template-columns:310px 1fr;gap:18px}.side{display:flex;flex-direction:column;gap:10px;position:sticky;top:90px;align-self:start}.tab{border:1px solid var(--line);background:white;border-radius:16px;padding:13px;text-align:left;font-weight:850;cursor:pointer}.tab.active{border-color:#93c5fd;background:#eff6ff;color:#1d4ed8}.list{display:grid;gap:12px}.item{border:1px solid var(--line);border-radius:19px;padding:15px;background:white}.item h3{margin:0 0 6px}.small{font-size:13px}.badge{display:inline-flex;border-radius:999px;background:#eef2ff;color:#3730a3;padding:5px 9px;font-size:12px;font-weight:900}.badge.gray{background:#f2f4f7;color:#344054}.badge.green{background:#dcfce7;color:#166534}.badge.orange{background:#fff7ed;color:#9a3412}.notice{border-left:4px solid var(--brand);padding:12px 14px;background:#eff6ff;border-radius:14px}.error{border-left-color:var(--bad);background:#fef2f2;color:#991b1b}.success{border-left-color:var(--good);background:#f0fdf4;color:#166534}.warn{border-left-color:var(--warning);background:#fffbeb;color:#92400e}.footer{padding:36px 0;color:var(--muted);font-size:14px}.check{display:flex;align-items:flex-start;gap:9px;margin:10px 0}.check input{margin-top:4px}.builder-field{background:#fbfdff;border:1px solid var(--line);border-radius:18px;padding:14px;margin:12px 0}.builder-field.dragging{opacity:.5}.template-card{cursor:pointer}.template-card:hover{outline:2px solid #bfdbfe}.typeform{min-height:100vh;background:linear-gradient(135deg,#eef6ff,#ffffff 48%,#f5f3ff);display:grid;place-items:center;padding:24px}.form-stage{width:min(820px,100%)}.progress{height:9px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:14px 0 24px}.progress span{display:block;height:100%;background:linear-gradient(135deg,var(--brand),var(--brand2));width:0;transition:.2s ease}.qcard{background:white;border:1px solid var(--line);border-radius:32px;padding:34px;box-shadow:var(--shadow)}.qnum{font-weight:950;color:#2563eb}.qtitle{font-size:34px;letter-spacing:-.8px;line-height:1.1;margin:10px 0}.qhelp{color:var(--muted);font-size:17px;line-height:1.6}.choice{display:flex;gap:10px;align-items:center;width:100%;border:1px solid var(--line);background:#fff;border-radius:16px;margin:10px 0;padding:13px;text-align:left;font:inherit;cursor:pointer}.choice.selected{border-color:#60a5fa;background:#eff6ff}.summary{background:#f8fafc;border:1px solid var(--line);border-radius:18px;padding:12px}.code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f2f4f7;border-radius:10px;padding:2px 6px}.empty{border:1px dashed #cbd5e1;border-radius:18px;padding:22px;text-align:center;color:var(--muted);background:#fafafa}.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 16px}.kpi div{background:white;border:1px solid var(--line);border-radius:18px;padding:14px}.kpi b{font-size:26px} @media(max-width:900px){.hero,.two,.grid,.grid2,.kpi{grid-template-columns:1fr}.h1{font-size:42px}.qtitle{font-size:28px}.side{position:static}.links{justify-content:flex-end}.qcard{padding:24px}}
   </style>
 </head>
 <body>
@@ -17,13 +22,37 @@
 
   <script>
     // Replace these with your Supabase project settings.
-    const SUPABASE_URL = "https://kthnnprzlojcjdwhbrqr.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt0aG5ucHJ6bG9qY2pkd2hicnFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4OTM3NzcsImV4cCI6MjA5NTQ2OTc3N30.r30hQUymNdhk9-p01-RGqHHqleMaGxWGu3VHcbEq1Cg";
+    const SUPABASE_URL = "YOUR_SUPABASE_URL";
+    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
     const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const $ = (id) => document.getElementById(id);
     const go = (hash) => { location.hash = hash; };
     const route = () => location.hash || "#/";
     let session = null;
+    let builderFields = [];
+    let builderSettings = { mode:'one_at_a_time', theme:'blue', success_message:'Submitted. Thank you!' };
+    const fieldTypes = [
+      ['short_text','Short answer'],['long_text','Long answer'],['email','Email'],['phone','Phone'],['number','Number'],['date','Date'],['dropdown','Dropdown'],['radio','Multiple choice'],['checkbox','Checkboxes'],['consent','Consent checkbox'],['signature','Typed signature']
+    ];
+    const templates = {
+      permission:{name:'Permission slip', description:'Guardian consent, emergency contact, media release, and signature.', fields:[
+        f('Student name','short_text',true,'Who is this form for?'),f('Student grade/age','short_text',false,''),f('Guardian name','short_text',true,''),f('Guardian email','email',true,''),f('Guardian phone','phone',true,''),f('Emergency contact','short_text',true,'Name and phone number'),f('Media release','consent',false,'I allow photos/videos to be used for program updates and promotion.'),f('Permission agreement','consent',true,'I give permission for my child to participate in this activity/program.'),f('Typed guardian signature','signature',true,'Type your full legal name')]
+      },
+      signup:{name:'General signup form', description:'A simple Typeform-style signup form.', fields:[
+        f('Full name','short_text',true,''),f('Email','email',true,''),f('Phone number','phone',false,''),f('What are you signing up for?','dropdown',true,'Choose one','Program, Event, Volunteer, Updates'),f('Anything we should know?','long_text',false,'')]
+      },
+      interest:{name:'Interest form', description:'Collect interest, preferences, and availability.', fields:[
+        f('Name','short_text',true,''),f('Email','email',true,''),f('What are you interested in?','checkbox',true,'Select all that apply','Music, Business, Volunteering, Events, Mentorship, Tech'),f('Best days for you','checkbox',false,'','Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday'),f('Tell us more','long_text',false,'')]
+      },
+      feedback:{name:'Feedback form', description:'Collect ratings and comments after an event/program.', fields:[
+        f('Name','short_text',false,'Optional'),f('Email','email',false,'Optional'),f('How would you rate this?','radio',true,'','1, 2, 3, 4, 5'),f('What went well?','long_text',false,''),f('What should we improve?','long_text',false,'')]
+      },
+      blank:{name:'Blank form', description:'Start from scratch.', fields:[f('Your question','short_text',true,'')]}
+    };
+
+    function f(label,type,required=false,help='',options=''){
+      return { id: crypto.randomUUID(), label, type, required, help, options: options ? options.split(',').map(x=>x.trim()).filter(Boolean) : [] };
+    }
 
     async function init(){
       const res = await db.auth.getSession();
@@ -31,35 +60,26 @@
       db.auth.onAuthStateChange((_event, newSession) => { session = newSession; render(); });
       render();
     }
-
-    function shell(html, appMode=false){
-      $("top").classList.toggle("hidden", !appMode);
-      $("app").innerHTML = html;
-    }
+    function shell(html, appMode=false){ $("top").classList.toggle("hidden", !appMode); $("app").innerHTML = html; }
 
     function landing(){
-      shell(`<div class="wrap"><nav class="nav"><a class="brand" href="#/"><span class="logo">G</span>GoSlip</a><div class="links"><a class="btn ghost" href="#/submit/demo">Try demo</a><a class="btn primary" href="#/login">Get started</a></div></nav><section class="hero"><div><span class="pill">Free digital permission slips</span><h1 class="h1">Send, sign, and manage permission slips without the paperwork.</h1><p class="lead">GoSlip helps youth programs, clubs, schools, and nonprofits collect guardian consent forms, media releases, emergency contacts, and typed signatures.</p><div class="row"><a class="btn primary" href="#/login">Create your first form</a><a class="btn" href="#/submit/demo">View public form</a></div></div><div class="card"><h2>What you can collect</h2><div class="list"><div class="item"><b>Guardian approval</b><p class="muted">Typed guardian signature, timestamp, and agreement checkbox.</p></div><div class="item"><b>Emergency contact info</b><p class="muted">Student details, guardian phone, and backup contacts.</p></div><div class="item"><b>Media release</b><p class="muted">Optional photo/video permission for programs and events.</p></div></div></div></section><section class="grid"><div class="card"><h3>Create</h3><p class="muted">Build a simple permission slip in minutes.</p></div><div class="card"><h3>Share</h3><p class="muted">Send one public link to guardians.</p></div><div class="card"><h3>Export</h3><p class="muted">Download responses as a CSV.</p></div></section><footer class="footer">GoSlip v0.1.1 Lite</footer></div>`);
+      shell(`<div class="wrap"><nav class="nav"><a class="brand" href="#/"><span class="logo">G</span>GoSlip</a><div class="links"><a class="btn ghost" href="#/submit/demo">Try demo</a><a class="btn primary" href="#/login">Get started</a></div></nav><section class="hero"><div><span class="pill">Forms + permission slips</span><h1 class="h1">Build simple forms that feel like Typeform.</h1><p class="lead">GoSlip started as a permission slip tool, but now it can collect signups, feedback, interest forms, guardian consent, typed signatures, and regular form responses.</p><div class="row"><a class="btn primary" href="#/login">Create your first form</a><a class="btn" href="#/submit/demo">View public form</a></div></div><div class="card"><h2>What you can build</h2><div class="list"><div class="item"><b>Permission slips</b><p class="muted">Guardian consent, media release, emergency contact, and typed signature.</p></div><div class="item"><b>Regular forms</b><p class="muted">Signups, feedback forms, surveys, applications, interest forms, and RSVP forms.</p></div><div class="item"><b>One-question flow</b><p class="muted">Public forms show one question at a time with progress, like Typeform.</p></div></div></div></section><section class="grid"><div class="card"><h3>Templates</h3><p class="muted">Start with permission slip, signup, interest, feedback, or blank form templates.</p></div><div class="card"><h3>Custom fields</h3><p class="muted">Short answer, long answer, email, phone, date, choices, checkboxes, consent, and signature.</p></div><div class="card"><h3>Export</h3><p class="muted">View responses and download a CSV.</p></div></section><footer class="footer">GoSlip v0.2.0 Lite · Free static hosting friendly</footer></div>`);
     }
 
     function login(){
-      shell(`<div class="wrap"><nav class="nav"><a class="brand" href="#/"><span class="logo">G</span>GoSlip</a></nav><section class="hero"><div><h1 class="h1">Welcome to GoSlip</h1><p class="lead">Sign in or create an account to start building permission slips.</p></div><div class="card"><div id="msg"></div><div class="field"><label>Email</label><input class="input" id="email" type="email" placeholder="you@example.com"></div><div class="field"><label>Password</label><input class="input" id="password" type="password" placeholder="At least 6 characters"></div><div class="row"><button class="btn primary" onclick="auth('signin')">Sign in</button><button class="btn" onclick="auth('signup')">Create account</button></div></div></section></div>`);
+      shell(`<div class="wrap"><nav class="nav"><a class="brand" href="#/"><span class="logo">G</span>GoSlip</a></nav><section class="hero"><div><span class="pill">Admin login</span><h1 class="h1">Welcome back.</h1><p class="lead">Sign in or create an account to build forms, share links, and view responses.</p></div><div class="card"><div id="msg"></div><div class="field"><label>Email</label><input class="input" id="email" type="email" placeholder="you@example.com"></div><div class="field"><label>Password</label><input class="input" id="password" type="password" placeholder="At least 6 characters"></div><div class="row"><button class="btn primary" onclick="auth('signin')">Sign in</button><button class="btn" onclick="auth('signup')">Create account</button></div></div></section></div>`);
     }
-
     async function auth(type){
-      const email = $("email").value.trim();
-      const password = $("password").value;
-      const msg = $("msg");
+      const email = $("email").value.trim(), password = $("password").value, msg = $("msg");
       const res = type === "signin" ? await db.auth.signInWithPassword({email,password}) : await db.auth.signUp({email,password});
-      if(res.error){ msg.innerHTML = `<p class="notice error">${res.error.message}</p>`; return; }
-      msg.innerHTML = `<p class="notice success">Success. Redirecting...</p>`;
-      setTimeout(()=>go('#/dashboard'),600);
+      if(res.error){ msg.innerHTML = `<p class="notice error">${escapeHtml(res.error.message)}</p>`; return; }
+      msg.innerHTML = `<p class="notice success">Success. Redirecting...</p>`; setTimeout(()=>go('#/dashboard'),600);
     }
-
     async function signOut(){ await db.auth.signOut(); go('#/'); }
 
     async function dashboard(tab="forms"){
       if(!session){ go('#/login'); return; }
-      shell(`<div class="wrap app"><div class="two"><aside class="side"><button class="tab ${tab==='forms'?'active':''}" onclick="dashboard('forms')">Forms</button><button class="tab ${tab==='new'?'active':''}" onclick="dashboard('new')">Create form</button><button class="tab ${tab==='subs'?'active':''}" onclick="dashboard('subs')">Submissions</button><div class="notice small">Lite version: one HTML file, one SQL file, no Node setup required.</div></aside><section class="card" id="panel">Loading...</section></div></div>`, true);
+      shell(`<div class="wrap app"><div class="two"><aside class="side"><button class="tab ${tab==='forms'?'active':''}" onclick="dashboard('forms')">Forms</button><button class="tab ${tab==='new'?'active':''}" onclick="dashboard('new')">Create form</button><button class="tab ${tab==='subs'?'active':''}" onclick="dashboard('subs')">Responses</button><div class="notice small"><b>v0.2.0 Lite</b><br>Still just a static site + Supabase. No Node, no build step, no backend server.</div></aside><section class="card" id="panel">Loading...</section></div></div>`, true);
       if(tab === "new") return newForm();
       if(tab === "subs") return submissions();
       forms();
@@ -68,76 +88,177 @@
     async function forms(){
       const panel = $("panel");
       const {data,error} = await db.from('forms').select('*').eq('owner_id', session.user.id).order('created_at',{ascending:false});
-      if(error){ panel.innerHTML = `<p class="notice error">${error.message}</p>`; return; }
-      panel.innerHTML = `<div class="row" style="justify-content:space-between"><div><h2>Your forms</h2><p class="muted">Create and share permission slips.</p></div><button class="btn primary" onclick="dashboard('new')">New form</button></div><div class="list">${(data||[]).map(f=>`<div class="item"><span class="badge">${f.status}</span><h3>${escapeHtml(f.title)}</h3><p class="muted">${escapeHtml(f.description||'No description')}</p><div class="row"><button class="btn" onclick="copyLink('${f.id}')">Copy public link</button><a class="btn ghost" href="#/submit/${f.id}">Open</a></div></div>`).join('') || '<p class="muted">No forms yet.</p>'}</div>`;
+      if(error){ panel.innerHTML = `<p class="notice error">${escapeHtml(error.message)}</p>`; return; }
+      const forms = data || [];
+      panel.innerHTML = `<div class="between"><div><h2>Your forms</h2><p class="muted">Create Typeform-style forms and permission slips.</p></div><button class="btn primary" onclick="dashboard('new')">New form</button></div>${forms.length ? `<div class="list">${forms.map(formCard).join('')}</div>` : `<div class="empty"><h3>No forms yet</h3><p>Create your first GoSlip form from a template.</p><button class="btn primary" onclick="dashboard('new')">Create form</button></div>`}`;
+    }
+    function formCard(form){
+      const count = getFields(form).length;
+      return `<div class="item"><div class="between"><div><span class="badge green">${escapeHtml(form.status||'active')}</span> <span class="badge gray">${escapeHtml(form.category||'form')}</span><h3>${escapeHtml(form.title)}</h3><p class="muted">${escapeHtml(form.description||'No description')}</p><p class="small muted">${count} fields · Created ${new Date(form.created_at).toLocaleDateString()}</p></div><div class="row"><button class="btn small" onclick="copyLink('${form.id}')">Copy link</button><a class="btn small ghost" href="#/submit/${form.id}">Open</a><button class="btn small" onclick="editForm('${form.id}')">Edit</button></div></div></div>`;
     }
 
     function newForm(){
-      $("panel").innerHTML = `<h2>Create a form</h2><p class="muted">Start with a simple permission slip. You can edit the HTML later to add more custom fields.</p><div id="msg"></div><div class="field"><label>Program or event name</label><input class="input" id="title" placeholder="Future of Music DJ Program"></div><div class="field"><label>Description</label><textarea id="description" placeholder="What is this permission slip for?"></textarea></div><div class="field"><label>Consent text</label><textarea id="consent_text">I give permission for my child to participate in this program/event. I understand the program may contact me using the information provided.</textarea></div><label class="check"><input id="media_release" type="checkbox"> Include media release checkbox</label><button class="btn primary" onclick="saveForm()">Save form</button>`;
+      builderFields = templates.permission.fields.map(cloneField);
+      builderSettings = {mode:'one_at_a_time',theme:'blue',success_message:'Submitted. Thank you!'};
+      $("panel").innerHTML = `<h2>Create a form</h2><p class="muted">Choose a template, then customize the fields. The public form will show one question at a time.</p><div id="msg"></div><h3>Start with a template</h3><div class="grid2">${Object.entries(templates).map(([key,t])=>`<div class="item template-card" onclick="loadTemplate('${key}')"><h3>${t.name}</h3><p class="muted">${t.description}</p></div>`).join('')}</div><hr style="border:0;border-top:1px solid var(--line);margin:22px 0"><div class="grid2"><div class="field"><label>Form title</label><input class="input" id="title" placeholder="Future of Music signup" value="Permission Slip"></div><div class="field"><label>Form type</label><select id="category"><option value="permission_slip">Permission slip</option><option value="signup">Signup</option><option value="feedback">Feedback</option><option value="survey">Survey</option><option value="application">Application</option><option value="rsvp">RSVP</option><option value="general">General form</option></select></div></div><div class="field"><label>Description</label><textarea id="description" placeholder="What is this form for?">Guardian consent and participant information.</textarea></div><div class="grid2"><div class="field"><label>Public form style</label><select id="mode"><option value="one_at_a_time">One question at a time</option><option value="classic">Classic full page</option></select></div><div class="field"><label>Success message</label><input class="input" id="success_message" value="Submitted. Thank you!"></div></div><h3>Fields</h3><div id="fields"></div><div class="row"><button class="btn" onclick="addField()">Add field</button><button class="btn ghost" onclick="previewBuilder()">Preview</button><button class="btn primary" onclick="saveForm()">Save form</button></div>`;
+      renderBuilderFields();
     }
 
+    function loadTemplate(key){
+      const t = templates[key]; if(!t) return;
+      builderFields = t.fields.map(cloneField);
+      $("title").value = t.name;
+      $("description").value = t.description;
+      const cat = key === 'permission' ? 'permission_slip' : key === 'interest' ? 'signup' : key;
+      $("category").value = [...$("category").options].some(o=>o.value===cat) ? cat : 'general';
+      renderBuilderFields();
+    }
+    function cloneField(x){ return {...x, id: crypto.randomUUID(), options:[...(x.options||[])]}; }
+    function addField(){ builderFields.push(f('New question','short_text',false,'')); renderBuilderFields(); }
+    function removeField(id){ builderFields = builderFields.filter(x=>x.id!==id); renderBuilderFields(); }
+    function moveField(id,dir){ const i=builderFields.findIndex(x=>x.id===id); const j=i+dir; if(i<0||j<0||j>=builderFields.length)return; [builderFields[i],builderFields[j]]=[builderFields[j],builderFields[i]]; renderBuilderFields(); }
+    function syncField(id,key,value){ const item = builderFields.find(x=>x.id===id); if(!item) return; item[key] = key==='required' ? value.checked : key==='options' ? value.split(',').map(x=>x.trim()).filter(Boolean) : value; }
+    function renderBuilderFields(){
+      const box = $("fields"); if(!box) return;
+      box.innerHTML = builderFields.map((field,i)=>`<div class="builder-field"><div class="between"><b>${i+1}. ${escapeHtml(field.label||'Untitled question')}</b><div class="row"><button class="btn small ghost" onclick="moveField('${field.id}',-1)">↑</button><button class="btn small ghost" onclick="moveField('${field.id}',1)">↓</button><button class="btn small danger" onclick="removeField('${field.id}')">Remove</button></div></div><div class="grid2"><div class="field"><label>Question</label><input class="input" value="${attr(field.label)}" oninput="syncField('${field.id}','label',this.value)"></div><div class="field"><label>Type</label><select onchange="syncField('${field.id}','type',this.value);renderBuilderFields()">${fieldTypes.map(([v,l])=>`<option value="${v}" ${field.type===v?'selected':''}>${l}</option>`).join('')}</select></div></div><div class="field"><label>Help text / consent statement</label><input class="input" value="${attr(field.help||'')}" oninput="syncField('${field.id}','help',this.value)" placeholder="Optional helper text"></div>${['dropdown','radio','checkbox'].includes(field.type)?`<div class="field"><label>Options, separated by commas</label><input class="input" value="${attr((field.options||[]).join(', '))}" oninput="syncField('${field.id}','options',this.value)"></div>`:''}<label class="check"><input type="checkbox" ${field.required?'checked':''} onchange="syncField('${field.id}','required',this)"> Required</label></div>`).join('') || '<div class="empty">No fields yet.</div>';
+    }
+    function collectSettings(){ return { mode: val('mode') || 'one_at_a_time', theme:'blue', success_message: val('success_message') || 'Submitted. Thank you!' }; }
+    function previewBuilder(){
+      const fake = {id:'preview', title:val('title')||'Untitled form', description:val('description'), fields:builderFields, settings:collectSettings(), category:val('category')};
+      localStorage.setItem('goslip_preview', JSON.stringify(fake)); go('#/preview');
+    }
     async function saveForm(){
-      const payload = { owner_id: session.user.id, title: $("title").value.trim(), description: $("description").value.trim(), consent_text: $("consent_text").value.trim(), media_release: $("media_release").checked, status:'active' };
-      if(!payload.title){ $("msg").innerHTML='<p class="notice error">Add a title first.</p>'; return; }
+      const title = val('title'); if(!title){ $("msg").innerHTML='<p class="notice error">Add a title first.</p>'; return; }
+      if(!builderFields.length){ $("msg").innerHTML='<p class="notice error">Add at least one field.</p>'; return; }
+      const payload = {owner_id:session.user.id,title,description:val('description'),category:val('category'),fields:builderFields,settings:collectSettings(),status:'active'};
       const {data,error} = await db.from('forms').insert(payload).select().single();
-      if(error){ $("msg").innerHTML=`<p class="notice error">${error.message}</p>`; return; }
+      if(error){ $("msg").innerHTML=`<p class="notice error">${escapeHtml(error.message)}</p>`; return; }
       go(`#/submit/${data.id}`);
     }
 
+    async function editForm(id){
+      const {data,error} = await db.from('forms').select('*').eq('id',id).eq('owner_id',session.user.id).single();
+      if(error){ alert(error.message); return; }
+      builderFields = getFields(data).map(cloneField);
+      builderSettings = data.settings || {mode:'one_at_a_time',theme:'blue',success_message:'Submitted. Thank you!'};
+      $("panel").innerHTML = `<h2>Edit form</h2><p class="muted">Update fields, title, and public form settings.</p><div id="msg"></div><div class="grid2"><div class="field"><label>Form title</label><input class="input" id="title" value="${attr(data.title)}"></div><div class="field"><label>Form type</label><select id="category"><option value="permission_slip">Permission slip</option><option value="signup">Signup</option><option value="feedback">Feedback</option><option value="survey">Survey</option><option value="application">Application</option><option value="rsvp">RSVP</option><option value="general">General form</option></select></div></div><div class="field"><label>Description</label><textarea id="description">${escapeHtml(data.description||'')}</textarea></div><div class="grid2"><div class="field"><label>Public form style</label><select id="mode"><option value="one_at_a_time">One question at a time</option><option value="classic">Classic full page</option></select></div><div class="field"><label>Success message</label><input class="input" id="success_message" value="${attr(builderSettings.success_message||'Submitted. Thank you!')}"></div></div><h3>Fields</h3><div id="fields"></div><div class="row"><button class="btn" onclick="addField()">Add field</button><button class="btn ghost" onclick="previewBuilder()">Preview</button><button class="btn primary" onclick="updateForm('${id}')">Save changes</button></div>`;
+      $("category").value = data.category || 'general'; $("mode").value = builderSettings.mode || 'one_at_a_time'; renderBuilderFields();
+    }
+    async function updateForm(id){
+      const {error} = await db.from('forms').update({title:val('title'),description:val('description'),category:val('category'),fields:builderFields,settings:collectSettings()}).eq('id',id).eq('owner_id',session.user.id);
+      $("msg").innerHTML = error ? `<p class="notice error">${escapeHtml(error.message)}</p>` : '<p class="notice success">Saved.</p>';
+    }
+
     async function publicSubmit(id){
-      if(id === 'demo') return demoSubmit();
+      if(id === 'demo') return renderPublic(demoForm(), true);
       const {data:f,error} = await db.from('forms').select('*').eq('id',id).single();
-      if(error){ shell(`<div class="wrap"><p class="notice error">Form not found.</p></div>`); return; }
-      shell(formHtml(f));
+      if(error || !f){ shell(`<div class="wrap"><p class="notice error">Form not found.</p></div>`); return; }
+      renderPublic(f, false);
     }
-
-    function demoSubmit(){
-      shell(formHtml({id:'demo',title:'Demo Permission Slip',description:'This is what a public GoSlip form looks like.',consent_text:'I give permission for my child to participate in this activity.',media_release:true}, true));
+    function preview(){ const fake = JSON.parse(localStorage.getItem('goslip_preview') || 'null'); if(!fake) return go('#/dashboard'); renderPublic(fake, true); }
+    function demoForm(){ return {id:'demo',title:'GoSlip Demo Form',description:'This demo shows the new Typeform-style one-question experience.',category:'general',settings:{mode:'one_at_a_time',success_message:'Demo submitted. Real forms save to Supabase.'},fields:[f('What is your name?','short_text',true,''),f('What are you interested in?','checkbox',true,'Choose all that apply','Permission slips, Signups, Feedback forms, Surveys'),f('Email address','email',false,''),f('Anything else?','long_text',false,'')]}; }
+    function getFields(form){
+      if(Array.isArray(form.fields) && form.fields.length) return form.fields;
+      return [f('Student name','short_text',true,''),f('Guardian name','short_text',true,''),f('Guardian email','email',false,''),f('Guardian phone','phone',false,''),f('Emergency contact','short_text',false,''),form.media_release?f('Media release','consent',false,'I allow photos/videos to be used for program updates and promotion.'):null,f('Permission agreement','consent',true,form.consent_text||'I agree to this permission slip.'),f('Typed guardian signature','signature',true,'Type your full legal name')].filter(Boolean);
     }
-
-    function formHtml(f){
-      return `<div class="wrap"><nav class="nav"><a class="brand" href="#/"><span class="logo">G</span>GoSlip</a></nav><section class="hero"><div><span class="pill">Permission slip</span><h1 class="h1">${escapeHtml(f.title)}</h1><p class="lead">${escapeHtml(f.description||'Please complete this guardian form.')}</p></div><div class="card"><div id="msg"></div><div class="field"><label>Student name</label><input class="input" id="student_name"></div><div class="field"><label>Guardian name</label><input class="input" id="guardian_name"></div><div class="field"><label>Guardian email</label><input class="input" id="guardian_email" type="email"></div><div class="field"><label>Guardian phone</label><input class="input" id="guardian_phone"></div><div class="field"><label>Emergency contact</label><input class="input" id="emergency_contact" placeholder="Name and phone number"></div>${f.media_release?'<label class="check"><input id="media_ok" type="checkbox"> I allow photos/videos of my child to be used for program updates and promotion.</label>':''}<label class="check"><input id="agree" type="checkbox"> ${escapeHtml(f.consent_text||'I agree to this permission slip.')}</label><div class="field"><label>Typed guardian signature</label><input class="input" id="signature" placeholder="Type full legal name"></div><button class="btn primary" onclick="sendSubmission('${f.id}')">Submit permission slip</button></div></section></div>`;
+    function renderPublic(form, demo=false){
+      const fields = getFields(form); const settings = form.settings || {mode:'one_at_a_time',success_message:'Submitted. Thank you!'};
+      if(settings.mode === 'classic') return shell(classicFormHtml(form, fields, demo));
+      shell(`<div class="typeform"><div class="form-stage"><div class="between"><a class="brand" href="#/"><span class="logo">G</span>GoSlip</a><span class="badge">${escapeHtml(form.category||'form')}</span></div><div class="progress"><span id="bar"></span></div><div id="question"></div></div></div>`);
+      window.goSlipPublic = {form,fields,answers:{},index:0,demo}; renderQuestion();
     }
-
-    async function sendSubmission(formId){
-      if(formId === 'demo'){ $("msg").innerHTML='<p class="notice success">Demo submitted. Real forms will save to Supabase.</p>'; return; }
-      if(!$("agree").checked){ $("msg").innerHTML='<p class="notice error">Please check the consent agreement.</p>'; return; }
-      const payload = { form_id: formId, student_name: val('student_name'), guardian_name: val('guardian_name'), guardian_email: val('guardian_email'), guardian_phone: val('guardian_phone'), emergency_contact: val('emergency_contact'), media_ok: !!($("media_ok") && $("media_ok").checked), signature: val('signature') };
-      if(!payload.student_name || !payload.guardian_name || !payload.signature){ $("msg").innerHTML='<p class="notice error">Student name, guardian name, and signature are required.</p>'; return; }
+    function renderQuestion(){
+      const state = window.goSlipPublic; const field = state.fields[state.index]; const pct = ((state.index)/Math.max(1,state.fields.length))*100; $("bar").style.width = pct+'%';
+      if(!field){ return renderSubmitReview(); }
+      $("question").innerHTML = `<div class="qcard"><div class="qnum">Question ${state.index+1} of ${state.fields.length}</div><h1 class="qtitle">${escapeHtml(field.label)} ${field.required?'<span style="color:#dc2626">*</span>':''}</h1>${field.help?`<p class="qhelp">${escapeHtml(field.help)}</p>`:''}<div>${inputFor(field,state.answers[field.id])}</div><div class="row" style="margin-top:22px"><button class="btn ghost" ${state.index===0?'disabled':''} onclick="prevQuestion()">Back</button><button class="btn primary" onclick="nextQuestion()">${state.index===state.fields.length-1?'Review':'Next'}</button></div></div>`;
+    }
+    function inputFor(field,value){
+      const v = value ?? '';
+      if(field.type==='long_text') return `<textarea id="answer" placeholder="Type your answer...">${escapeHtml(v)}</textarea>`;
+      if(field.type==='email') return `<input class="input" id="answer" type="email" placeholder="name@example.com" value="${attr(v)}">`;
+      if(field.type==='phone') return `<input class="input" id="answer" type="tel" placeholder="(555) 555-5555" value="${attr(v)}">`;
+      if(field.type==='number') return `<input class="input" id="answer" type="number" value="${attr(v)}">`;
+      if(field.type==='date') return `<input class="input" id="answer" type="date" value="${attr(v)}">`;
+      if(field.type==='dropdown') return `<select id="answer"><option value="">Choose one</option>${(field.options||[]).map(o=>`<option ${v===o?'selected':''}>${escapeHtml(o)}</option>`).join('')}</select>`;
+      if(field.type==='radio') return (field.options||[]).map(o=>`<button class="choice ${v===o?'selected':''}" onclick="selectSingle('${field.id}', '${attrJs(o)}')">○ ${escapeHtml(o)}</button>`).join('') || '<p class="muted">No options added.</p>';
+      if(field.type==='checkbox') return (field.options||[]).map(o=>`<label class="choice ${Array.isArray(v)&&v.includes(o)?'selected':''}"><input type="checkbox" value="${attr(o)}" ${Array.isArray(v)&&v.includes(o)?'checked':''} onchange="toggleMulti('${field.id}',this)"> ${escapeHtml(o)}</label>`).join('') || '<p class="muted">No options added.</p>';
+      if(field.type==='consent') return `<label class="check" style="font-size:17px"><input id="answer" type="checkbox" ${v===true?'checked':''}> I agree</label>`;
+      if(field.type==='signature') return `<input class="input" id="answer" placeholder="Type full legal name" value="${attr(v)}"><p class="small muted">This stores a typed signature with the submission timestamp.</p>`;
+      return `<input class="input" id="answer" placeholder="Type your answer..." value="${attr(v)}">`;
+    }
+    function readAnswer(field){
+      if(field.type==='radio' || field.type==='checkbox') return window.goSlipPublic.answers[field.id] ?? (field.type==='checkbox'?[]:'');
+      const el = $("answer"); if(!el) return '';
+      if(field.type==='consent') return el.checked;
+      return el.value.trim();
+    }
+    function nextQuestion(){
+      const s = window.goSlipPublic, field = s.fields[s.index]; const ans = readAnswer(field); s.answers[field.id] = ans;
+      if(field.required && (ans==='' || ans===false || (Array.isArray(ans)&&!ans.length))){ alert('This question is required.'); return; }
+      s.index++; renderQuestion();
+    }
+    function prevQuestion(){ const s=window.goSlipPublic; if(s.index>0){ s.index--; renderQuestion(); } }
+    function selectSingle(id,value){ window.goSlipPublic.answers[id]=value; renderQuestion(); }
+    function toggleMulti(id,el){ const arr = Array.isArray(window.goSlipPublic.answers[id]) ? window.goSlipPublic.answers[id] : []; if(el.checked) arr.push(el.value); else arr.splice(arr.indexOf(el.value),1); window.goSlipPublic.answers[id]=[...new Set(arr)]; }
+    function renderSubmitReview(){
+      const s = window.goSlipPublic; $("bar").style.width = '100%';
+      $("question").innerHTML = `<div class="qcard"><div class="qnum">Review</div><h1 class="qtitle">Submit ${escapeHtml(s.form.title)}?</h1><p class="qhelp">You can go back to make changes, or submit now.</p><div class="summary">${s.fields.map(field=>`<p><b>${escapeHtml(field.label)}:</b> ${escapeHtml(formatAnswer(s.answers[field.id]))}</p>`).join('')}</div><div id="msg"></div><div class="row" style="margin-top:22px"><button class="btn ghost" onclick="prevQuestion()">Back</button><button class="btn primary" onclick="submitDynamicForm()">Submit</button></div></div>`;
+    }
+    function classicFormHtml(form,fields,demo){
+      return `<div class="wrap"><nav class="nav"><a class="brand" href="#/"><span class="logo">G</span>GoSlip</a></nav><section class="hero"><div><span class="pill">${escapeHtml(form.category||'form')}</span><h1 class="h1">${escapeHtml(form.title)}</h1><p class="lead">${escapeHtml(form.description||'Please complete this form.')}</p></div><div class="card"><div id="msg"></div>${fields.map(field=>`<div class="field"><label>${escapeHtml(field.label)} ${field.required?'<span style="color:#dc2626">*</span>':''}</label>${field.help?`<p class="small muted">${escapeHtml(field.help)}</p>`:''}${classicInput(field)}</div>`).join('')}<button class="btn primary" onclick="submitClassic('${form.id}', ${demo?'true':'false'})">Submit</button></div></section></div>`;
+    }
+    function classicInput(field){ const name=`ans_${field.id}`; if(field.type==='long_text')return`<textarea id="${name}"></textarea>`; if(field.type==='dropdown')return`<select id="${name}"><option value="">Choose one</option>${(field.options||[]).map(o=>`<option>${escapeHtml(o)}</option>`).join('')}</select>`; if(field.type==='radio')return(field.options||[]).map(o=>`<label class="check"><input type="radio" name="${name}" value="${attr(o)}"> ${escapeHtml(o)}</label>`).join(''); if(field.type==='checkbox')return(field.options||[]).map(o=>`<label class="check"><input type="checkbox" name="${name}" value="${attr(o)}"> ${escapeHtml(o)}</label>`).join(''); if(field.type==='consent')return`<label class="check"><input id="${name}" type="checkbox"> I agree</label>`; return`<input class="input" id="${name}" type="${field.type==='email'?'email':field.type==='number'?'number':field.type==='date'?'date':'text'}">`; }
+    async function submitClassic(formId,demo){ const form = demo? demoForm() : null; alert('Classic mode is best for display; one-question mode has the full submit flow in this Lite version. Switch the form style to one question at a time for best results.'); }
+    async function submitDynamicForm(){
+      const s = window.goSlipPublic; if(s.demo || s.form.id==='preview' || s.form.id==='demo'){ $("msg").innerHTML = `<p class="notice success">${escapeHtml(s.form.settings?.success_message||'Demo submitted.')}</p>`; return; }
+      const answers = {}; s.fields.forEach(field=> answers[field.id] = {label:field.label,type:field.type,value:s.answers[field.id] ?? ''});
+      const payload = {form_id:s.form.id, answers, respondent_name:guessAnswer(s,'name'), respondent_email:guessAnswer(s,'email'), signature:guessAnswer(s,'signature') || guessAnswer(s,'name') || 'No signature'};
       const {error} = await db.from('submissions').insert(payload);
-      $("msg").innerHTML = error ? `<p class="notice error">${error.message}</p>` : '<p class="notice success">Submitted. Thank you!</p>';
+      $("msg").innerHTML = error ? `<p class="notice error">${escapeHtml(error.message)}</p>` : `<p class="notice success">${escapeHtml(s.form.settings?.success_message||'Submitted. Thank you!')}</p>`;
+    }
+    function guessAnswer(s,kind){
+      const field = s.fields.find(x => kind==='email'? x.type==='email' : kind==='signature'? x.type==='signature' : /name/i.test(x.label));
+      return field ? formatAnswer(s.answers[field.id] || '') : '';
     }
 
     async function submissions(){
       const panel = $("panel");
-      const {data,error} = await db.from('submissions').select('*, forms(title)').order('created_at',{ascending:false});
-      if(error){ panel.innerHTML = `<p class="notice error">${error.message}</p>`; return; }
-      window.latestSubmissions = data || [];
-      panel.innerHTML = `<div class="row" style="justify-content:space-between"><div><h2>Submissions</h2><p class="muted">Recent completed permission slips.</p></div><button class="btn" onclick="exportCsv()">Export CSV</button></div><div class="list">${(data||[]).map(s=>`<div class="item"><h3>${escapeHtml(s.student_name)}</h3><p><b>Form:</b> ${escapeHtml(s.forms?.title||'Unknown')}</p><p class="muted"><b>Guardian:</b> ${escapeHtml(s.guardian_name)} · ${escapeHtml(s.guardian_email||'No email')}</p><p class="small muted">Signed: ${new Date(s.created_at).toLocaleString()}</p></div>`).join('') || '<p class="muted">No submissions yet.</p>'}</div>`;
+      const {data,error} = await db.from('submissions').select('*, forms(title, owner_id, fields)').order('created_at',{ascending:false});
+      if(error){ panel.innerHTML = `<p class="notice error">${escapeHtml(error.message)}</p>`; return; }
+      const rows = data || []; window.latestSubmissions = rows;
+      const formCount = new Set(rows.map(r=>r.form_id)).size;
+      panel.innerHTML = `<div class="between"><div><h2>Responses</h2><p class="muted">View completed form responses and export them.</p></div><button class="btn" onclick="exportCsv()">Export CSV</button></div><div class="kpi"><div><b>${rows.length}</b><p class="muted">Total responses</p></div><div><b>${formCount}</b><p class="muted">Forms with responses</p></div><div><b>${rows.filter(r=>isToday(r.created_at)).length}</b><p class="muted">Today</p></div></div><div class="list">${rows.map(responseCard).join('') || '<div class="empty">No responses yet.</div>'}</div>`;
     }
-
+    function responseCard(r){
+      const answers = normalizedAnswers(r);
+      return `<div class="item"><div class="between"><div><span class="badge gray">${escapeHtml(r.forms?.title||'Unknown form')}</span><h3>${escapeHtml(r.respondent_name || answerByLabel(answers,'name') || r.student_name || 'Anonymous response')}</h3><p class="small muted">Submitted ${new Date(r.created_at).toLocaleString()}</p></div><button class="btn small ghost" onclick="toggleDetails('${r.id}')">View details</button></div><div id="details_${r.id}" class="hidden summary" style="margin-top:12px">${Object.values(answers).map(a=>`<p><b>${escapeHtml(a.label)}:</b> ${escapeHtml(formatAnswer(a.value))}</p>`).join('') || legacyDetails(r)}</div></div>`;
+    }
+    function toggleDetails(id){ $("details_"+id).classList.toggle('hidden'); }
+    function normalizedAnswers(r){ return r.answers && typeof r.answers === 'object' ? r.answers : {}; }
+    function legacyDetails(r){ return `<p><b>Student:</b> ${escapeHtml(r.student_name||'')}</p><p><b>Guardian:</b> ${escapeHtml(r.guardian_name||'')}</p><p><b>Email:</b> ${escapeHtml(r.guardian_email||'')}</p><p><b>Phone:</b> ${escapeHtml(r.guardian_phone||'')}</p><p><b>Emergency:</b> ${escapeHtml(r.emergency_contact||'')}</p><p><b>Signature:</b> ${escapeHtml(r.signature||'')}</p>`; }
     function exportCsv(){
       const rows = window.latestSubmissions || [];
-      const headers = ['form','student_name','guardian_name','guardian_email','guardian_phone','emergency_contact','media_ok','signature','created_at'];
-      const csv = [headers.join(','), ...rows.map(r=>headers.map(h=>JSON.stringify(h==='form'?(r.forms?.title||''):(r[h]??''))).join(','))].join('\n');
-      const blob = new Blob([csv], {type:'text/csv'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href=url; a.download='goslip-submissions.csv'; a.click(); URL.revokeObjectURL(url);
+      const allLabels = [...new Set(rows.flatMap(r=>Object.values(normalizedAnswers(r)).map(a=>a.label)))];
+      const headers = ['form','respondent_name','respondent_email','created_at',...allLabels];
+      const csv = [headers.map(csvCell).join(','), ...rows.map(r=>headers.map(h=>{
+        if(h==='form') return csvCell(r.forms?.title||''); if(h==='respondent_name') return csvCell(r.respondent_name||''); if(h==='respondent_email') return csvCell(r.respondent_email||''); if(h==='created_at') return csvCell(r.created_at);
+        const answer = Object.values(normalizedAnswers(r)).find(a=>a.label===h); return csvCell(formatAnswer(answer?.value || ''));
+      }).join(','))].join('\n');
+      const blob = new Blob([csv], {type:'text/csv'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href=url; a.download='goslip-responses.csv'; a.click(); URL.revokeObjectURL(url);
     }
 
     function copyLink(id){ navigator.clipboard.writeText(`${location.origin}${location.pathname}#/submit/${id}`); alert('Public link copied.'); }
-    function val(id){ return $(id).value.trim(); }
-    function escapeHtml(str){ return String(str||'').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[c])); }
+    function val(id){ return $(id)?.value?.trim() || ''; }
+    function escapeHtml(str){ return String(str??'').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[c])); }
+    function attr(str){ return escapeHtml(str).replace(/`/g,'&#096;'); }
+    function attrJs(str){ return String(str??'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' '); }
+    function formatAnswer(v){ if(Array.isArray(v)) return v.join('; '); if(v===true) return 'Yes'; if(v===false) return 'No'; return String(v??''); }
+    function answerByLabel(answers,needle){ const a = Object.values(answers).find(x=>new RegExp(needle,'i').test(x.label)); return a ? formatAnswer(a.value) : ''; }
+    function csvCell(v){ return '"'+String(v??'').replace(/"/g,'""')+'"'; }
+    function isToday(date){ const d=new Date(date), n=new Date(); return d.toDateString()===n.toDateString(); }
 
-    function render(){
-      const r = route();
-      if(r.startsWith('#/login')) return login();
-      if(r.startsWith('#/dashboard')) return dashboard('forms');
-      if(r.startsWith('#/submit/')) return publicSubmit(r.split('/')[2]);
-      landing();
-    }
-    window.addEventListener('hashchange', render);
-    init();
+    function render(){ const r = route(); if(r.startsWith('#/login')) return login(); if(r.startsWith('#/dashboard')) return dashboard('forms'); if(r.startsWith('#/preview')) return preview(); if(r.startsWith('#/submit/')) return publicSubmit(r.split('/')[2]); landing(); }
+    window.addEventListener('hashchange', render); init();
   </script>
 </body>
 </html>
