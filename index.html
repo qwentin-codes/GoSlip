@@ -1,0 +1,143 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GoSlip</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root{--bg:#f7f8fb;--card:#fff;--text:#121826;--muted:#667085;--line:#e5e7eb;--brand:#2563eb;--brand2:#1e40af;--good:#16a34a;--bad:#dc2626;--shadow:0 18px 50px rgba(15,23,42,.09)}
+    *{box-sizing:border-box} body{margin:0;background:linear-gradient(180deg,#eef4ff 0%,var(--bg) 38%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif} a{color:inherit;text-decoration:none} .wrap{max-width:1120px;margin:auto;padding:24px}.nav{display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:22px}.logo{width:38px;height:38px;border-radius:13px;background:var(--brand);color:white;display:grid;place-items:center;box-shadow:var(--shadow)}.links{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.btn{border:0;border-radius:14px;padding:11px 15px;font-weight:800;cursor:pointer;background:#eaf1ff;color:#17305f}.btn.primary{background:var(--brand);color:white}.btn.danger{background:#fee2e2;color:#991b1b}.btn.ghost{background:transparent;border:1px solid var(--line)}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:center;padding:64px 0}.pill{display:inline-flex;border:1px solid #bfdbfe;color:#1d4ed8;background:#eff6ff;border-radius:999px;padding:8px 12px;font-weight:800;font-size:13px}.h1{font-size:56px;line-height:1;margin:16px 0}.lead{font-size:20px;color:var(--muted);line-height:1.65}.card{background:rgba(255,255,255,.86);border:1px solid var(--line);border-radius:26px;padding:22px;box-shadow:var(--shadow);backdrop-filter:blur(10px)}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.field{display:flex;flex-direction:column;gap:7px;margin:12px 0}.field label{font-weight:800;font-size:14px}.input,textarea,select{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px 13px;font:inherit;background:white}textarea{min-height:110px;resize:vertical}.muted{color:var(--muted)}.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.hidden{display:none!important}.topbar{position:sticky;top:0;background:rgba(247,248,251,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:5}.app{padding:26px 0}.two{display:grid;grid-template-columns:340px 1fr;gap:18px}.side{display:flex;flex-direction:column;gap:10px}.tab{border:1px solid var(--line);background:white;border-radius:16px;padding:13px;text-align:left;font-weight:850;cursor:pointer}.tab.active{border-color:#93c5fd;background:#eff6ff;color:#1d4ed8}.list{display:grid;gap:12px}.item{border:1px solid var(--line);border-radius:18px;padding:14px;background:white}.item h3{margin:0 0 6px}.small{font-size:13px}.badge{display:inline-flex;border-radius:999px;background:#eef2ff;color:#3730a3;padding:5px 9px;font-size:12px;font-weight:900}.notice{border-left:4px solid var(--brand);padding:12px 14px;background:#eff6ff;border-radius:14px}.error{border-left-color:var(--bad);background:#fef2f2;color:#991b1b}.success{border-left-color:var(--good);background:#f0fdf4;color:#166534}.footer{padding:36px 0;color:var(--muted);font-size:14px}.check{display:flex;align-items:flex-start;gap:9px;margin:10px 0}.check input{margin-top:4px}@media(max-width:850px){.hero,.two,.grid{grid-template-columns:1fr}.h1{font-size:42px}.links{justify-content:flex-end}}
+  </style>
+</head>
+<body>
+  <div id="top" class="topbar hidden"><div class="wrap nav"><a class="brand" href="#/"><span class="logo">G</span>GoSlip</a><div class="links"><button class="btn ghost" onclick="go('#/dashboard')">Dashboard</button><button class="btn danger" onclick="signOut()">Sign out</button></div></div></div>
+  <main id="app"></main>
+
+  <script>
+    // Replace these with your Supabase project settings.
+    const SUPABASE_URL = "YOUR_SUPABASE_URL";
+    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const $ = (id) => document.getElementById(id);
+    const go = (hash) => { location.hash = hash; };
+    const route = () => location.hash || "#/";
+    let session = null;
+
+    async function init(){
+      const res = await db.auth.getSession();
+      session = res.data.session;
+      db.auth.onAuthStateChange((_event, newSession) => { session = newSession; render(); });
+      render();
+    }
+
+    function shell(html, appMode=false){
+      $("top").classList.toggle("hidden", !appMode);
+      $("app").innerHTML = html;
+    }
+
+    function landing(){
+      shell(`<div class="wrap"><nav class="nav"><a class="brand" href="#/"><span class="logo">G</span>GoSlip</a><div class="links"><a class="btn ghost" href="#/submit/demo">Try demo</a><a class="btn primary" href="#/login">Get started</a></div></nav><section class="hero"><div><span class="pill">Free digital permission slips</span><h1 class="h1">Send, sign, and manage permission slips without the paperwork.</h1><p class="lead">GoSlip helps youth programs, clubs, schools, and nonprofits collect guardian consent forms, media releases, emergency contacts, and typed signatures.</p><div class="row"><a class="btn primary" href="#/login">Create your first form</a><a class="btn" href="#/submit/demo">View public form</a></div></div><div class="card"><h2>What you can collect</h2><div class="list"><div class="item"><b>Guardian approval</b><p class="muted">Typed guardian signature, timestamp, and agreement checkbox.</p></div><div class="item"><b>Emergency contact info</b><p class="muted">Student details, guardian phone, and backup contacts.</p></div><div class="item"><b>Media release</b><p class="muted">Optional photo/video permission for programs and events.</p></div></div></div></section><section class="grid"><div class="card"><h3>Create</h3><p class="muted">Build a simple permission slip in minutes.</p></div><div class="card"><h3>Share</h3><p class="muted">Send one public link to guardians.</p></div><div class="card"><h3>Export</h3><p class="muted">Download responses as a CSV.</p></div></section><footer class="footer">GoSlip v0.1.1 Lite</footer></div>`);
+    }
+
+    function login(){
+      shell(`<div class="wrap"><nav class="nav"><a class="brand" href="#/"><span class="logo">G</span>GoSlip</a></nav><section class="hero"><div><h1 class="h1">Welcome to GoSlip</h1><p class="lead">Sign in or create an account to start building permission slips.</p></div><div class="card"><div id="msg"></div><div class="field"><label>Email</label><input class="input" id="email" type="email" placeholder="you@example.com"></div><div class="field"><label>Password</label><input class="input" id="password" type="password" placeholder="At least 6 characters"></div><div class="row"><button class="btn primary" onclick="auth('signin')">Sign in</button><button class="btn" onclick="auth('signup')">Create account</button></div></div></section></div>`);
+    }
+
+    async function auth(type){
+      const email = $("email").value.trim();
+      const password = $("password").value;
+      const msg = $("msg");
+      const res = type === "signin" ? await db.auth.signInWithPassword({email,password}) : await db.auth.signUp({email,password});
+      if(res.error){ msg.innerHTML = `<p class="notice error">${res.error.message}</p>`; return; }
+      msg.innerHTML = `<p class="notice success">Success. Redirecting...</p>`;
+      setTimeout(()=>go('#/dashboard'),600);
+    }
+
+    async function signOut(){ await db.auth.signOut(); go('#/'); }
+
+    async function dashboard(tab="forms"){
+      if(!session){ go('#/login'); return; }
+      shell(`<div class="wrap app"><div class="two"><aside class="side"><button class="tab ${tab==='forms'?'active':''}" onclick="dashboard('forms')">Forms</button><button class="tab ${tab==='new'?'active':''}" onclick="dashboard('new')">Create form</button><button class="tab ${tab==='subs'?'active':''}" onclick="dashboard('subs')">Submissions</button><div class="notice small">Lite version: one HTML file, one SQL file, no Node setup required.</div></aside><section class="card" id="panel">Loading...</section></div></div>`, true);
+      if(tab === "new") return newForm();
+      if(tab === "subs") return submissions();
+      forms();
+    }
+
+    async function forms(){
+      const panel = $("panel");
+      const {data,error} = await db.from('forms').select('*').eq('owner_id', session.user.id).order('created_at',{ascending:false});
+      if(error){ panel.innerHTML = `<p class="notice error">${error.message}</p>`; return; }
+      panel.innerHTML = `<div class="row" style="justify-content:space-between"><div><h2>Your forms</h2><p class="muted">Create and share permission slips.</p></div><button class="btn primary" onclick="dashboard('new')">New form</button></div><div class="list">${(data||[]).map(f=>`<div class="item"><span class="badge">${f.status}</span><h3>${escapeHtml(f.title)}</h3><p class="muted">${escapeHtml(f.description||'No description')}</p><div class="row"><button class="btn" onclick="copyLink('${f.id}')">Copy public link</button><a class="btn ghost" href="#/submit/${f.id}">Open</a></div></div>`).join('') || '<p class="muted">No forms yet.</p>'}</div>`;
+    }
+
+    function newForm(){
+      $("panel").innerHTML = `<h2>Create a form</h2><p class="muted">Start with a simple permission slip. You can edit the HTML later to add more custom fields.</p><div id="msg"></div><div class="field"><label>Program or event name</label><input class="input" id="title" placeholder="Future of Music DJ Program"></div><div class="field"><label>Description</label><textarea id="description" placeholder="What is this permission slip for?"></textarea></div><div class="field"><label>Consent text</label><textarea id="consent_text">I give permission for my child to participate in this program/event. I understand the program may contact me using the information provided.</textarea></div><label class="check"><input id="media_release" type="checkbox"> Include media release checkbox</label><button class="btn primary" onclick="saveForm()">Save form</button>`;
+    }
+
+    async function saveForm(){
+      const payload = { owner_id: session.user.id, title: $("title").value.trim(), description: $("description").value.trim(), consent_text: $("consent_text").value.trim(), media_release: $("media_release").checked, status:'active' };
+      if(!payload.title){ $("msg").innerHTML='<p class="notice error">Add a title first.</p>'; return; }
+      const {data,error} = await db.from('forms').insert(payload).select().single();
+      if(error){ $("msg").innerHTML=`<p class="notice error">${error.message}</p>`; return; }
+      go(`#/submit/${data.id}`);
+    }
+
+    async function publicSubmit(id){
+      if(id === 'demo') return demoSubmit();
+      const {data:f,error} = await db.from('forms').select('*').eq('id',id).single();
+      if(error){ shell(`<div class="wrap"><p class="notice error">Form not found.</p></div>`); return; }
+      shell(formHtml(f));
+    }
+
+    function demoSubmit(){
+      shell(formHtml({id:'demo',title:'Demo Permission Slip',description:'This is what a public GoSlip form looks like.',consent_text:'I give permission for my child to participate in this activity.',media_release:true}, true));
+    }
+
+    function formHtml(f){
+      return `<div class="wrap"><nav class="nav"><a class="brand" href="#/"><span class="logo">G</span>GoSlip</a></nav><section class="hero"><div><span class="pill">Permission slip</span><h1 class="h1">${escapeHtml(f.title)}</h1><p class="lead">${escapeHtml(f.description||'Please complete this guardian form.')}</p></div><div class="card"><div id="msg"></div><div class="field"><label>Student name</label><input class="input" id="student_name"></div><div class="field"><label>Guardian name</label><input class="input" id="guardian_name"></div><div class="field"><label>Guardian email</label><input class="input" id="guardian_email" type="email"></div><div class="field"><label>Guardian phone</label><input class="input" id="guardian_phone"></div><div class="field"><label>Emergency contact</label><input class="input" id="emergency_contact" placeholder="Name and phone number"></div>${f.media_release?'<label class="check"><input id="media_ok" type="checkbox"> I allow photos/videos of my child to be used for program updates and promotion.</label>':''}<label class="check"><input id="agree" type="checkbox"> ${escapeHtml(f.consent_text||'I agree to this permission slip.')}</label><div class="field"><label>Typed guardian signature</label><input class="input" id="signature" placeholder="Type full legal name"></div><button class="btn primary" onclick="sendSubmission('${f.id}')">Submit permission slip</button></div></section></div>`;
+    }
+
+    async function sendSubmission(formId){
+      if(formId === 'demo'){ $("msg").innerHTML='<p class="notice success">Demo submitted. Real forms will save to Supabase.</p>'; return; }
+      if(!$("agree").checked){ $("msg").innerHTML='<p class="notice error">Please check the consent agreement.</p>'; return; }
+      const payload = { form_id: formId, student_name: val('student_name'), guardian_name: val('guardian_name'), guardian_email: val('guardian_email'), guardian_phone: val('guardian_phone'), emergency_contact: val('emergency_contact'), media_ok: !!($("media_ok") && $("media_ok").checked), signature: val('signature') };
+      if(!payload.student_name || !payload.guardian_name || !payload.signature){ $("msg").innerHTML='<p class="notice error">Student name, guardian name, and signature are required.</p>'; return; }
+      const {error} = await db.from('submissions').insert(payload);
+      $("msg").innerHTML = error ? `<p class="notice error">${error.message}</p>` : '<p class="notice success">Submitted. Thank you!</p>';
+    }
+
+    async function submissions(){
+      const panel = $("panel");
+      const {data,error} = await db.from('submissions').select('*, forms(title)').order('created_at',{ascending:false});
+      if(error){ panel.innerHTML = `<p class="notice error">${error.message}</p>`; return; }
+      window.latestSubmissions = data || [];
+      panel.innerHTML = `<div class="row" style="justify-content:space-between"><div><h2>Submissions</h2><p class="muted">Recent completed permission slips.</p></div><button class="btn" onclick="exportCsv()">Export CSV</button></div><div class="list">${(data||[]).map(s=>`<div class="item"><h3>${escapeHtml(s.student_name)}</h3><p><b>Form:</b> ${escapeHtml(s.forms?.title||'Unknown')}</p><p class="muted"><b>Guardian:</b> ${escapeHtml(s.guardian_name)} · ${escapeHtml(s.guardian_email||'No email')}</p><p class="small muted">Signed: ${new Date(s.created_at).toLocaleString()}</p></div>`).join('') || '<p class="muted">No submissions yet.</p>'}</div>`;
+    }
+
+    function exportCsv(){
+      const rows = window.latestSubmissions || [];
+      const headers = ['form','student_name','guardian_name','guardian_email','guardian_phone','emergency_contact','media_ok','signature','created_at'];
+      const csv = [headers.join(','), ...rows.map(r=>headers.map(h=>JSON.stringify(h==='form'?(r.forms?.title||''):(r[h]??''))).join(','))].join('\n');
+      const blob = new Blob([csv], {type:'text/csv'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download='goslip-submissions.csv'; a.click(); URL.revokeObjectURL(url);
+    }
+
+    function copyLink(id){ navigator.clipboard.writeText(`${location.origin}${location.pathname}#/submit/${id}`); alert('Public link copied.'); }
+    function val(id){ return $(id).value.trim(); }
+    function escapeHtml(str){ return String(str||'').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[c])); }
+
+    function render(){
+      const r = route();
+      if(r.startsWith('#/login')) return login();
+      if(r.startsWith('#/dashboard')) return dashboard('forms');
+      if(r.startsWith('#/submit/')) return publicSubmit(r.split('/')[2]);
+      landing();
+    }
+    window.addEventListener('hashchange', render);
+    init();
+  </script>
+</body>
+</html>
