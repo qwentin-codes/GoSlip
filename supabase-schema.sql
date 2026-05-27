@@ -14,18 +14,36 @@ create table if not exists forms (
 create table if not exists submissions (
   id uuid primary key default gen_random_uuid(),
   form_id uuid not null references forms(id) on delete cascade,
-  student_name text not null,
-  guardian_name text not null,
+  student_name text,
+  guardian_name text,
   guardian_email text,
   guardian_phone text,
   emergency_contact text,
   media_ok boolean default false,
-  signature text not null,
+  signature text,
   created_at timestamptz default now()
 );
 
+-- GoSlip v0.2.0 upgrades. Safe to run on an existing v0.1.1 database.
+alter table forms add column if not exists category text default 'general';
+alter table forms add column if not exists fields jsonb default '[]'::jsonb;
+alter table forms add column if not exists settings jsonb default '{"mode":"one_at_a_time","theme":"blue","success_message":"Submitted. Thank you!"}'::jsonb;
+alter table forms add column if not exists updated_at timestamptz default now();
+
+alter table submissions add column if not exists answers jsonb default '{}'::jsonb;
+alter table submissions add column if not exists respondent_name text;
+alter table submissions add column if not exists respondent_email text;
+alter table submissions add column if not exists respondent_phone text;
+alter table submissions add column if not exists ip_address text;
+alter table submissions add column if not exists user_agent text;
+
 alter table forms enable row level security;
 alter table submissions enable row level security;
+
+drop policy if exists "Users can manage their own forms" on forms;
+drop policy if exists "Anyone can read active public forms" on forms;
+drop policy if exists "Anyone can submit a public form" on submissions;
+drop policy if exists "Form owners can read submissions" on submissions;
 
 create policy "Users can manage their own forms"
 on forms for all
